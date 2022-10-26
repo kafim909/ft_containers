@@ -1,5 +1,11 @@
-SRCS		=	main.cpp
-OBJS		=	$(SRCS:%.cpp=%.o)
+# VECT_TEST_DIR = /test/vector/
+
+# VECTOR_TEST =   basic.cpp
+
+SRCS		=	main.cpp tests/vector/basic.cpp
+
+
+OBJS		=	$(SRCS:%.cpp=%.o) 
 
 NAME		=	ft_containers
 
