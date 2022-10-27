@@ -1,11 +1,10 @@
 #include <iostream>
 #include "vector.hpp"
 #include "tests/tests.hpp"
+#include <vector>
+
 
 int main()
 {
-	std::cout << MAGENTA << std::endl << "======VECTOR======" << std::endl << std::endl << RESET;
-	vectorTests test;
-	test.testCopyAssignment();
-	test.testCopyConstructor();
+	vector_tests();
 }

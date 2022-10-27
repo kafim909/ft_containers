@@ -60,27 +60,33 @@ namespace ft
 // 		empty vector
 
 			explicit vector(const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _capacity(0){																			
-				try {_container = _alloc.allocate( 0, 0);}
-				catch (std::bad_alloc &e) {	e.what();}
+				_container = _alloc.allocate( 0, 0);
 			}
 			
 //		vector filled in constructor
 
-			explicit vector(const unsigned int n, const value_type &x = value_type(),
+			explicit vector(const size_type n, const value_type &x = value_type(),
 						const allocator_type &alloc = allocator_type()) : _size (n), _alloc(alloc), _capacity(n) {
-				try {_container = _alloc.allocate(n, 0);}
-				catch (std::bad_alloc &e) {	e.what();}
+				_container = _alloc.allocate(n, 0);
 				std::uninitialized_fill(_container, _container + _size, x);
 			}
+
+		// vector constructor for extended capacity without init the values
+
+			explicit vector(const size_type size, const size_type capacity, const value_type &x = value_type(),
+							const allocator_type &alloc = allocator_type()) : _size(size), _capacity(capacity), _alloc(alloc){
+				_container = _alloc.allocate(_capacity, 0);
+			}
+
+// 		copy constructor
 
 			explicit vector(const vector& copy) : _size(copy.size()), _alloc(copy.get_allocator()), _capacity(copy.capacity()){												
 				iterator beg = copy.begin();
 				_container = _alloc.allocate(_capacity, 0);
-				for (int i = 0; i < _size; i++)
-				{
+				for (size_type i = 0; i < _size; i++){
 					_container[i] = *beg;
 					beg++;
-				}				
+				}
 			}
 
 			~vector<value_type>(){_alloc.deallocate(_container, _capacity);}
@@ -111,17 +117,49 @@ namespace ft
 			allocator_type get_allocator() const 	{return (_alloc);		}
 			size_type size() const					{return (_size);		}
 			size_type capacity() const				{return (_capacity);	}
-			size_type max_size() const		{return (std::numeric_limits<difference_type>::max());}
-			
-			value_type& at(size_type n) const {
-				if (n < 0 || n > _size)
-					throw (std::out_of_range);
+
+			reference 	front() const 	{return (*_container);}
+			reference	back() 	const	{return (*(_container + _size));}
+			pointer 	data() 	const 	{return (_container);}
+
+			reference at(size_type n) const {
+				if (n > _size)
+					throw (std::out_of_range("Index out of bounds"));
 				return (_container[n]);
 			}
 
-			value_type& front() const 	{return (*_container);}
-			value_type& back() const	{return (*(container + _size));}
+			size_type max_size() const		{return (std::numeric_limits<difference_type>::max());}
+			
 
+			bool		empty()	const	{return (begin() == end());}
+
+			void 		push_back(const value_type& value) {}
+
+//  ======================================== MEMORY MANAGMENT
+
+			void	assign(size_type count, const T& value){
+				vector tmp(count, value);
+				*this = tmp;
+			}
+
+			void	reserve(size_type new_cap){
+				if (new_cap < _capacity)
+					return ;
+				if (new_cap > max_size())
+					throw (std::length_error("New capacity too big for object size"));
+				vector temp(_size, new_cap, value_type());
+				for (size_type i = 0; i < _size; i++)
+					temp.push_back(_container[i]);
+				*this = temp;
+				// temp.~vector();
+			}
+
+			// void	clear(){
+			// 	vector tmp(0, )
+			// }
+
+
+// ========================================== POINTERS FUNCTIONS
 
 
 			pointer begin() const {

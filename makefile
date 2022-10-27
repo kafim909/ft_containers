@@ -1,8 +1,8 @@
 # VECT_TEST_DIR = /test/vector/
 
-# VECTOR_TEST =   basic.cpp
+VECTOR_TEST =   tests/vector/basic.cpp tests/vector/basicRef.cpp
 
-SRCS		=	main.cpp tests/vector/basic.cpp
+SRCS		=	main.cpp tests/tests.cpp $(VECTOR_TEST)
 
 
 OBJS		=	$(SRCS:%.cpp=%.o) 

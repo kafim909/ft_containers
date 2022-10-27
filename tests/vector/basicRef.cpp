@@ -1,9 +1,10 @@
 # include "../tests.hpp"
+# include <vector>
 
-void vectorTests::testCopyAssignment()
+void refVectorTests::testCopyAssignment()
 {
 	std::cout << YELLOW << "TEST COPY ASSIGNMENT" << RESET << std::endl << std::endl;
-	typedef ft::vector<std::string> vect;
+	typedef std::vector<std::string> vect;
 	typedef vect::iterator	iter;
 
 
@@ -53,10 +54,10 @@ void vectorTests::testCopyAssignment()
 	}
 }
 
-void vectorTests::testCopyConstructor()
+void refVectorTests::testCopyConstructor()
 {
 	std::cout << YELLOW << "TEST COPY CONSTRUCTOR" << RESET << std::endl << std::endl;
-	typedef ft::vector<std::string> vect;
+	typedef std::vector<std::string> vect;
 	typedef vect::iterator	iter;
 
 	std::cout << BLUE << "TEST 1 : " << RESET; {
@@ -76,12 +77,12 @@ void vectorTests::testCopyConstructor()
 	}
 }
 
-void vectorTests::testReserve()
+void refVectorTests::testReserve()
 {
 	std::cout << YELLOW << "TEST RESERVE FUNCTION" << RESET << std::endl << std::endl;
 
 	std::cout << BLUE << "TEST INT : " << RESET;{
-		ft::vector<int> test(10, 10);
+		std::vector<int> test(10, 10);
 		test.reserve(20);
 		if (test.capacity() == 20 && test.size() == 10)
 			std::cout << GREEN << "OK" << RESET << std::endl;
@@ -89,7 +90,7 @@ void vectorTests::testReserve()
 			std::cout << RED << "NOT OK" << RESET << std::endl;
 	}
 	std::cout << BLUE << "TEST STRING : " << RESET;{
-		ft::vector<std::string> test(10, "coucou");
+		std::vector<std::string> test(10, "coucou");
 		test.reserve(20);
 		if (test.capacity() == 20 && test.size() == 10)
 		{
@@ -105,12 +106,12 @@ void vectorTests::testReserve()
 	}
 }
 
-void	vectorTests::testAssign()
+void	refVectorTests::testAssign()
 {
 	std::cout << YELLOW << "TEST ASSIGN FUNCTION" << RESET << std::endl << std::endl;
 
 	std::cout << BLUE << "TEST INT : " << RESET;{
-		ft::vector<int> test (10, 10, 10);
+		std::vector<int> test (10, 10);
 		test.assign(5,5);
 		if (test.size() == 5)
 		{
@@ -125,7 +126,7 @@ void	vectorTests::testAssign()
 		}
 	}
 	std::cout << BLUE << "TEST STRING : " << RESET;{
-		ft::vector<std::string> test (10, "coucou");
+		std::vector<std::string> test (10, "coucou");
 		test.assign(15,"lol");
 		if (test.size() == 15)
 		{
