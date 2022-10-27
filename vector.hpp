@@ -71,12 +71,16 @@ namespace ft
 				std::uninitialized_fill(_container, _container + _size, x);
 			}
 
-		// vector constructor for extended capacity without init the values
+		// private vector constructor for extended capacity without init the values
+
+		private :
 
 			explicit vector(const size_type size, const size_type capacity, const value_type &x = value_type(),
 							const allocator_type &alloc = allocator_type()) : _size(size), _capacity(capacity), _alloc(alloc){
 				_container = _alloc.allocate(_capacity, 0);
 			}
+
+		public :
 
 // 		copy constructor
 
@@ -163,12 +167,12 @@ namespace ft
 				for (size_type i = 0; i < _size; i++)
 					temp.push_back(_container[i]);
 				*this = temp;
-				// temp.~vector();
 			}
 
-			// void	clear(){
-			// 	vector tmp(0, )
-			// }
+			void	clear(){
+				vector tmp(0, _capacity);
+				*this = tmp;
+			}
 
 
 // ========================================== POINTERS FUNCTIONS

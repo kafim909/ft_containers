@@ -110,7 +110,7 @@ void	vectorTests::testAssign()
 	std::cout << YELLOW << "TEST ASSIGN FUNCTION" << RESET << std::endl << std::endl;
 
 	std::cout << BLUE << "TEST INT : " << RESET;{
-		ft::vector<int> test (10, 10, 10);
+		ft::vector<int> test (10, 10);
 		test.assign(5,5);
 		if (test.size() == 5)
 		{
