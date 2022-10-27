@@ -133,7 +133,19 @@ namespace ft
 
 			bool		empty()	const	{return (begin() == end());}
 
-			void 		push_back(const value_type& value) {}
+			void 		push_back(const value_type& value) {
+				if (_size +1 <= _capacity)
+				{
+					_container[_size] = value;
+					_size++;
+				}
+				else
+				{
+					reserve(_capacity * 2);
+					_container[_size] = value;
+					_size++;
+				}
+			}
 
 //  ======================================== MEMORY MANAGMENT
 
@@ -147,7 +159,7 @@ namespace ft
 					return ;
 				if (new_cap > max_size())
 					throw (std::length_error("New capacity too big for object size"));
-				vector temp(_size, new_cap, value_type());
+				vector temp(0, new_cap, value_type());
 				for (size_type i = 0; i < _size; i++)
 					temp.push_back(_container[i]);
 				*this = temp;

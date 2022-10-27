@@ -92,15 +92,15 @@ void refVectorTests::testReserve()
 	std::cout << BLUE << "TEST STRING : " << RESET;{
 		std::vector<std::string> test(10, "coucou");
 		test.reserve(20);
+		int i = -1;
 		if (test.capacity() == 20 && test.size() == 10)
 		{
-			int i = -1;
 			while (++i < 10)
-				if (!test[i].compare("coucou"))
+				if (test[i].compare("coucou"))
 					break;
-			if (i == 10)
-				std::cout << GREEN << "OK" << RESET << std::endl;
-	}
+		}
+		if (i == 10)
+			std::cout << GREEN << "OK" << RESET << std::endl;
 		else
 			std::cout << RED << "NOT OK" << RESET << std::endl;
 	}
