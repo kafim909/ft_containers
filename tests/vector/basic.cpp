@@ -140,3 +140,29 @@ void	vectorTests::testAssign()
 		}
 	}
 }
+
+void	vectorTests::testPopBack()
+{
+	std::cout << YELLOW << "TEST POP_BACK FUNCTION" << RESET << std::endl << std::endl;
+
+	std::cout << BLUE << "TEST 1 : " << RESET;{
+		ft::vector<int> test(10, 10);
+		ft::vector<int>::iterator end = test.end();
+		test.pop_back();
+		std::cout << "end iterator content : " << *end << std::endl;
+		std::cout << "test size after pop_back : " << test.size() << std::endl;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

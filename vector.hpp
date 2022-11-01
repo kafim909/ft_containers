@@ -1,44 +1,14 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
-# include <iostream>
 # include <memory>
-# include "colors.hpp"
-# include "iterator.hpp"
 # include <limits> 
+# include <iostream>
+# include "colors.hpp"
+# include "random_access_iterator.hpp"
+# include "reverse_iterator.hpp"
 
 namespace ft
 {
-
-	template <class T, class iterator = ft::iterator<ft::random_access_iterator_tag, T> >
-	class vectorIterator : public iterator
-	{
-		typedef T								value_type;
-		typedef typename iterator::pointer		pointer;
-
-		public :
-
-			vectorIterator() 											{					}
-			vectorIterator(pointer op) : ptr(op)						{					}
-			vectorIterator(const vectorIterator &copy) 					{	*this = copy;	}
-
-
-			vectorIterator	&operator=(const vectorIterator &op)		{	this->ptr = op.ptr; return (*this);	}
-			vectorIterator	&operator=(const pointer op)				{	this->ptr = op; return (*this);		}
-			value_type	&operator*(void)		 						{	return (*ptr);						}
-			vectorIterator 	&operator++()								{	this->ptr++;	return (*this);		}					
-			void		operator++(int op) 								{	this->ptr++;						}
-			vectorIterator 	&operator--()								{	this->ptr--;	return (*this);		}				
-			void		operator--(int op)				 				{	this->ptr--;						}
-			bool		operator!=(const vectorIterator &op)			{	return (this->ptr != op.getPointer());}
-			bool		operator==(const vectorIterator &op)			{	return (this->ptr == op.getPointer());}
-
-			pointer getPointer() const									{	return (ptr);	}
-
-		private :
-
-			pointer ptr;			
-	};
-
 
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
@@ -53,7 +23,10 @@ namespace ft
 			typedef	const value_type&						const_reference;
 			typedef typename Allocator::pointer				pointer;
 			typedef typename Allocator::const_pointer		const_pointer;
-			typedef ft::vectorIterator<value_type>			iterator;
+			typedef typename ft::random_access_iterator<value_type>		iterator;
+     		typedef typename ft::random_access_iterator<const T> 		const_iterator;
+      		typedef typename ft::reverse_iterator<iterator> 			reverse_iterator;
+      		typedef typename ft::reverse_iterator<const_iterator> 		const_reverse_iterator;
 
 // ======================================== CONSTRUCTORS / DESTRUCTORS
 
@@ -158,6 +131,8 @@ namespace ft
 				*this = tmp;
 			}
 
+			//  ADD ASSIGN WITH INPUT OPERATORS
+
 			void	reserve(size_type new_cap){
 				if (new_cap < _capacity)
 					return ;
@@ -169,20 +144,34 @@ namespace ft
 				*this = temp;
 			}
 
+			// CLEAR NEEDS TESTING
+
 			void	clear(){
 				vector tmp(0, _capacity);
 				*this = tmp;
+			}
+
+			void 	pop_back(){
+				_alloc.destroy(_container + _size);
+				_size--;
 			}
 
 
 // ========================================== POINTERS FUNCTIONS
 
 
-			pointer begin() const {
-				return (_container);
+			iterator begin() const {
+				return iterator(_container);
 			}
-			pointer end()const {
-				return (_container + _size);
+			iterator end()const {
+				return iterator(_container + _size);
+			}
+
+			reverse_iterator rbegin() const {
+				return reverse_iterator(_container + _size);
+			}
+			reverse_iterator rend()const {
+				return reverse_iterator(_container);
 			}
 
 		private :

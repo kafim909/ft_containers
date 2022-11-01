@@ -10,6 +10,7 @@ struct vectorTests
 	void	testCopyConstructor();
 	void	testReserve();
 	void	testAssign();
+	void	testPopBack();
 };
 
 struct refVectorTests     								// tests with STL vector to compare output/performance.
