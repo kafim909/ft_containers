@@ -174,6 +174,22 @@ namespace ft
 				return reverse_iterator(_container);
 			}
 
+			const_iterator cbegin() const {
+				return const_iterator(_container);
+			}
+
+			const_iterator cend() const {
+				return const_iterator(_container + _size);
+			}
+
+			const_reverse_iterator crbegin() const {
+				return const_reverse_iterator(_container + _size)
+			}
+
+			const_reverse_iterator crend() const {
+				return const_iterator(_container);
+			}
+
 		private :
 
 			size_type		_size;

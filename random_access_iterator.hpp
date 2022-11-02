@@ -21,6 +21,7 @@ namespace ft {
 			random_access_iterator	&operator=(const random_access_iterator &op)	{	this->ptr = op.ptr; return (*this);	}
 			random_access_iterator	&operator=(const pointer op)					{	this->ptr = op; return (*this);		}
 			value_type	&operator*(void)		 									{	return (*ptr);						}
+			value_type	&operator->(void)		 									{	return (*ptr);						}
 			random_access_iterator 	&operator++()									{	this->ptr++;	return (*this);		}					
 			void		operator++(int op) 											{	this->ptr++;						}
 			random_access_iterator 	&operator--()									{	this->ptr--;	return (*this);		}				
