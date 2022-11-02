@@ -15,14 +15,14 @@ namespace ft
 	{
 		public :
 
-			typedef T                                       value_type;
-			typedef Allocator                               allocator_type;
-			typedef std::size_t								size_type;
-			typedef std::ptrdiff_t							difference_type;
-			typedef	value_type&								reference;
-			typedef	const value_type&						const_reference;
-			typedef typename Allocator::pointer				pointer;
-			typedef typename Allocator::const_pointer		const_pointer;
+			typedef T                                       			value_type;
+			typedef Allocator                               			allocator_type;
+			typedef std::size_t											size_type;
+			typedef std::ptrdiff_t										difference_type;
+			typedef	value_type&											reference;
+			typedef	const value_type&									const_reference;
+			typedef typename Allocator::pointer							pointer;
+			typedef typename Allocator::const_pointer					const_pointer;
 			typedef typename ft::random_access_iterator<value_type>		iterator;
      		typedef typename ft::random_access_iterator<const T> 		const_iterator;
       		typedef typename ft::reverse_iterator<iterator> 			reverse_iterator;
@@ -183,7 +183,7 @@ namespace ft
 			}
 
 			const_reverse_iterator crbegin() const {
-				return const_reverse_iterator(_container + _size)
+				return const_reverse_iterator(_container + _size);
 			}
 
 			const_reverse_iterator crend() const {
@@ -199,6 +199,34 @@ namespace ft
 
 
 	};
+
+	template< class T, class Alloc >
+	bool operator==( const std::vector<T,Alloc>& lhs, const std::vector<T,Alloc>& rhs ){
+		if (lhs.size() == rhs.size())
+		{
+			size_t i = -1;
+			while (++i < lhs.size)
+				if (lhs[i] != rhs[i])
+					break;
+			if (i == lhs.size())
+				return (true);
+		}
+		return (false);
+	}
+
+	template< class T, class Alloc >
+	bool operator!=( const std::vector<T,Alloc>& lhs, const std::vector<T,Alloc>& rhs ){
+		if (lhs == rhs)
+			return (false);
+		return (true);
+	}
+
+	template< class T, class Alloc >
+	bool operator<( const std::vector<T,Alloc>& lhs, const std::vector<T,Alloc>& rhs ){
+
+	}
+
+
 
 
 

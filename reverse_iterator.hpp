@@ -9,7 +9,7 @@ namespace ft {
 	template <class Iter>
 	class reverse_iterator
 	{
-		typedef typename Iter												iterator_type;
+		typedef Iter														iterator_type;
 		typedef typename ft::iterator_traits<Iter>::iterator_category		iterator_category;
 		typedef typename ft::iterator_traits<Iter>::value_type				value_type;
 		typedef typename ft::iterator_traits<Iter>::difference_type			difference_type;
@@ -25,7 +25,7 @@ namespace ft {
 			explicit reverse_iterator(iterator_type x) : _current(x) {}
 
 			template< class U >
-			reverse_iterator(const reverse_iterator<U>& other) {this->_current = other.base()};
+			reverse_iterator(const reverse_iterator<U>& other) {this->_current = other.base();}
 
 // ================================ MEMBER OPERATORS
 
@@ -38,8 +38,8 @@ namespace ft {
 			reverse_iterator operator+( difference_type n ) const {	return reverse_iterator(base() - n);	}
 			reverse_iterator operator-( difference_type n ) const {	return reverse_iterator(base() + n);	}
 
-			reverse_iterator& operator+=( difference_type n ) {	return (*this)	};		
-			reverse_iterator& operator-=( difference_type n ) {	return (*this)	};		
+			reverse_iterator& operator+=( difference_type n ) {	return (*this);	};		
+			reverse_iterator& operator-=( difference_type n ) {	return (*this);	};		
 
 			template< class U >
 			reverse_iterator& operator=( const reverse_iterator<U>& other ){ 
@@ -49,7 +49,7 @@ namespace ft {
 			reference operator*() const 					{ 	Iter tmp = _current; return (*(--tmp));	}
 			pointer operator->() const						{	return &(operator*());					}
 
-			reference operator[] (difference_type n) const	{	return (base()[-n-1])	}
+			reference operator[] (difference_type n) const	{	return (base()[-n-1]);	}
 
 // ================================ ACCESSORS 
 

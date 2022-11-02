@@ -16,18 +16,18 @@ template <class Iter>
 
 template <class T>
     struct iterator_traits <T*>{
-        typedef typename T                                  value_type;
-        typedef typename T*                                 pointer;
-        typedef typename T&                                 reference;
+        typedef T                                  value_type;
+        typedef T*                                 pointer;
+        typedef T&                                 reference;
         typedef typename std::ptrdiff_t                     difference_type;
         typedef typename ft::random_access_iterator_tag     iterator_category;
     };
 
 template <class T>
     struct iterator_traits <const T*>{
-        typedef typename T                                  value_type;
-        typedef typename const T*                           pointer;
-        typedef typename const T&                           reference;
+        typedef T                                   value_type;
+        typedef T*                                  pointer;
+        typedef T&                                  reference;
         typedef typename std::ptrdiff_t                     difference_type;
         typedef typename ft::random_access_iterator_tag     iterator_category;
     };
