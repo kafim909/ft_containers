@@ -1,5 +1,4 @@
 # include "../tests.hpp"
-# include <vector>
 
 void refVectorTests::testCopyAssignment()
 {

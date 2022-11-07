@@ -145,14 +145,156 @@ void	vectorTests::testPopBack()
 {
 	std::cout << YELLOW << "TEST POP_BACK FUNCTION" << RESET << std::endl << std::endl;
 
-	std::cout << BLUE << "TEST 1 : " << RESET;{
+	std::cout << BLUE << "TEST 1 : " << RESET << std::endl;{
 		ft::vector<int> test(10, 10);
 		ft::vector<int>::iterator end = test.end();
 		test.pop_back();
-		std::cout << "end iterator content : " << *end << std::endl;
-		std::cout << "test size after pop_back : " << test.size() << std::endl;
 	}
 
+}
+
+void	printVector(ft::vector<int>::iterator first, ft::vector<int>::iterator last)
+{
+	std::cout << RED << "PRINT VECTOR : " << RESET << std::endl;
+	while (first != last)
+	{
+		std::cout << *first << std::endl;
+		first++;
+	}
+}
+
+void	vectorTests::testInsert()
+{
+	std::cout << YELLOW << "TEST INSERT FUNCTION" << RESET << std::endl << std::endl;
+
+	std::cout << BLUE << "TEST WITH POS : " << RESET; {
+		ft::vector<int> test(10, 8);
+		ft::vector<int>::iterator pos =  test.begin() + 4;
+		ft::vector<int>::iterator ret = test.insert(pos, 4);
+		if (*ret == 4)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+	}
+	std::cout << BLUE << "TEST WITH POS : " << RESET; {
+		ft::vector<int> test(2, 2);
+		ft::vector<int>::iterator pos =  test.begin();
+		ft::vector<int>::iterator ret = test.insert(pos, 500);
+		if (*test.begin() == 500)
+			std::cout << GREEN << "TEST OK" << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << std::endl;
+	}
+	std::cout << BLUE << "TEST WITH POS & COUNT : " << RESET; {
+		ft::vector<int> test;
+		ft::vector<int>::iterator pos =  test.begin();
+		ft::vector<int>::iterator ret = test.insert(pos, 2, 10);
+		if (*ret == 10 && *(ret + 1) == 10)
+			std::cout << GREEN << "TEST OK" << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << std::endl;
+	}
+	std::cout << BLUE << "TEST WITH ITERATORS : " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		ft::vector<int> to_insert;
+		to_insert.push_back(1000);
+		to_insert.push_back(2000);
+		to_insert.push_back(3000);
+		ft::vector<int>::iterator pos =  test.begin() + 2;
+		ft::vector<int>::iterator ret = test.insert(pos, to_insert.begin(), to_insert.end());
+		if (*ret == 1000 && *(ret + 1) == 2000 && *(ret + 2) == 3000)
+			std::cout << GREEN << "TEST OK" << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << std::endl;
+	}
+}
+
+void	vectorTests::testErase(){
+	std::cout << YELLOW << "TEST ERASE FUNCTION" << RESET << std::endl << std::endl;
+	std::cout << BLUE << "TEST WITH POS : " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		ft::vector<int>::iterator pos =  test.begin() + 2;
+		ft::vector<int>::iterator ret = test.erase(pos);
+		if (*ret == 4)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+		// printVector(test.begin(), test.end());
+	}	
+	std::cout << BLUE << "TEST WITH RANGE : " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		
+		ft::vector<int>::iterator beg =  test.begin() + 2;
+		ft::vector<int>::iterator end =  test.end();
+		ft::vector<int>::iterator ret = test.erase(beg, end);
+		if (*ret == 3)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+		// printVector(test.begin(), test.end());
+	}	
+
+}
+
+void	vectorTests::testResize(){
+	std::cout << YELLOW << "TEST RESIZE FUNCTION" << RESET << std::endl << std::endl;
+	std::cout << BLUE << "TEST WITHOUT VALUE AND SIZE GREATER THAN COUNT: " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		test.resize(3);
+		if (test.size() == 3)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+		// printVector(test.begin(), test.end());
+	}			
+	std::cout << BLUE << "TEST WITH VALUE AND COUNT GREATER THAN SIZE: " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		test.resize(8, 6);
+		if (test.size() == 8)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+		// printVector(test.begin(), test.end());
+	}			
+	std::cout << BLUE << "TEST WITHOUT VALUE AND COUNT GREATER THAN SIZE: " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		test.resize(8);
+		if (test.size() == 8)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+		// printVector(test.begin(), test.end());
+	}			
 }
 
 

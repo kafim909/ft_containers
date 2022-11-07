@@ -1,6 +1,6 @@
 # VECT_TEST_DIR = /test/vector/
 
-VECTOR_TEST =   tests/vector/basic.cpp tests/vector/basicRef.cpp
+VECTOR_TEST =   tests/vector/basic.cpp tests/vector/basicRef.cpp tests/vector/iterators.cpp tests/vector/iteratorsRef.cpp
 
 SRCS		=	main.cpp tests/tests.cpp $(VECTOR_TEST)
 

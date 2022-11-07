@@ -32,5 +32,15 @@ template <class T>
         typedef typename ft::random_access_iterator_tag     iterator_category;
     };
 
+	template< class InputIt >
+	typename ft::iterator_traits<InputIt>::difference_type distance( InputIt first, InputIt last ){
+		typename ft::iterator_traits<InputIt>::difference_type result = 0;
+		while (first != last){
+			first++;
+			result++;
+		}
+		return (result);
+	}
+
 }
 #endif

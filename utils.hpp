@@ -16,24 +16,37 @@ namespace ft {
 
 // ===================================
 
-
-
 // ================================================================== IS INTEGRAL SFINAE
 
-	template< bool is_integral, typename T >
-	struct is_integral_res{
-		typedef T type;
-		static const bool 	value = is_integral;
-	};
-
 	template<typename>
-	struct is_integral : public is_integral_res<false, bool> {};
-
+	struct is_integral									{	static const bool 	value = false;	};
 	template<>
-	struct is_integral<char> : public is_integral_res<true, bool> {};
+	struct is_integral<char>							{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<bool>							{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<signed char>						{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<short int>						{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<int>								{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<long int>						{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<long long int>					{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<unsigned char>					{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<unsigned short int>				{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<unsigned int>					{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<unsigned long int>				{	static const bool 	value = true;	};
+	template<>
+	struct is_integral<unsigned long long int>			{	static const bool 	value = true;	};
 
-	template<typename>
-	struct is_integral : public is_integral_res<false, bool> {};
+
+
 
 
 
@@ -51,23 +64,6 @@ namespace ft {
     	}
  		return (first1 == last1) && (first2 != last2);
 	}
-
-	template< class InputIt >
-	typename ft::iterator_traits<InputIt>::difference_type distance( InputIt first, InputIt last ){
-    	typename std::iterator_traits<It>::difference_type result = 0;
-    	while (first != last) 
-		{
-       		++first;
-        	++result;
-    	}
-    	return result;
-	}
-
-	template<class It>
-	typename std::iterator_traits<It>::difference_type do_distance(It first, It last, std::random_access_iterator_tag) {
-    	return (last - first);
-	}
- 
 }
 
 #endif

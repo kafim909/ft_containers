@@ -32,14 +32,14 @@ namespace ft {
 			reverse_iterator 	&operator++()				{	_current--;	return (*this);		}					
 			reverse_iterator 	&operator--()				{	_current++;	return (*this);		}
 
-			reverse_iterator	operator++( int op ) 			{	reverse_iterator tmp = *this; tmp._current--; return (tmp);}
-			reverse_iterator	operator--( int op ) 			{	reverse_iterator tmp = *this; tmp._current++; return (tmp);}
+			reverse_iterator	operator++( int ) 			{	reverse_iterator tmp = *this; tmp._current--; return (tmp);}
+			reverse_iterator	operator--( int ) 			{	reverse_iterator tmp = *this; tmp._current++; return (tmp);}
 
 			reverse_iterator operator+( difference_type n ) const {	return reverse_iterator(base() - n);	}
 			reverse_iterator operator-( difference_type n ) const {	return reverse_iterator(base() + n);	}
 
-			reverse_iterator& operator+=( difference_type n ) {	return (*this);	};		
-			reverse_iterator& operator-=( difference_type n ) {	return (*this);	};		
+			reverse_iterator& operator+=( difference_type n ) {	return (this->base() - n);	};		
+			reverse_iterator& operator-=( difference_type n ) {	return (this->base() + n);	};		
 
 			template< class U >
 			reverse_iterator& operator=( const reverse_iterator<U>& other ){ 

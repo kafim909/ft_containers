@@ -3,6 +3,17 @@
 # include "../vector.hpp"
 # include "../colors.hpp"
 # include <chrono>
+# include <vector>
+
+struct iteratorTests
+{
+	void constItTests();
+};
+
+struct refIteratorTests
+{
+	void constItTests();
+};
 
 struct vectorTests
 {
@@ -11,6 +22,9 @@ struct vectorTests
 	void	testReserve();
 	void	testAssign();
 	void	testPopBack();
+	void	testInsert();
+	void	testErase();
+	void	testResize();
 };
 
 struct refVectorTests     								// tests with STL vector to compare output/performance.
