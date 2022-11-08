@@ -1,28 +1,40 @@
 # include "../tests.hpp"
 
 void iteratorTests::constItTests(){
-	ft::vector<std::string> test;
-	test.push_back("coucou");
-	test.push_back(" comment");
-	test.push_back(" ca");
-	test.push_back(" va?");
-	ft::vector<std::string>::iterator it1 = test.begin();
-	ft::vector<std::string>::iterator it2 = test.begin() + 1;
-	ft::vector<std::string>::iterator it3 = test.begin() + 2;
-	ft::vector<std::string>::iterator it4 = test.begin() + 3;
-	ft::vector<std::string>::const_iterator constIt1;
-	constIt1 = test.begin();
-	ft::vector<std::string>::const_iterator constIt2 = test.begin() + 1;
-	ft::vector<std::string>::const_iterator constIt3 = test.begin() + 2;
-	ft::vector<std::string>::const_iterator constIt4 = test.begin() + 3;
-
-
-	constIt1 = constIt2;
-	if (constIt1 == constIt2)
-		it2 = it3;
-	
-	if (constIt1 > constIt4)
-		it3 = it2;
+	ft::vector<int> test;
+	for (int i = 0; i <= 20; i++)
+		test.push_back(i);
+	ft::vector<int>::iterator it1;
+	ft::vector<int>::iterator it2;
+	ft::vector<int>::iterator it3;
+	ft::vector<int>::iterator it4;
+	utility utils;
 	
 
+	std::cout << YELLOW << "TEST PLUS/MINUS" << RESET << std::endl << std::endl;
+	std::cout << BLUE << "TEST 1 : " << RESET;{
+		it1 = test.begin() + 5;
+		it2 = test.begin() + 5;
+		it2 -= 2;
+		if (*it1 == 5 && *it2 == 3)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+	}
+	std::cout << BLUE << "TEST 1 : " << RESET;{
+		it2 = test.begin() + 5;
+		it2 += 2;
+		if (*it1 == 5 && *it2 == 7)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+	}
+	std::cout << BLUE << "TEST 6 : " << RESET;{
+		it1 = test.begin() + 4;
+		it3 = it1 - 2;
+		if (*it3 == 2)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+	}
 }

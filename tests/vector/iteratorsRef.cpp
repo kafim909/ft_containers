@@ -1,27 +1,31 @@
 # include "../tests.hpp"
 
 void refIteratorTests::constItTests(){
-	std::vector<std::string> test;
-	test.push_back("coucou");
-	test.push_back(" comment");
-	test.push_back(" ca");
-	test.push_back(" va?");
-	std::vector<std::string>::iterator it1 = test.begin();
-	std::vector<std::string>::iterator it2 = test.begin() + 1;
-	std::vector<std::string>::iterator it3 = test.begin() + 2;
-	std::vector<std::string>::iterator it4 = test.begin() + 3;
-	std::vector<std::string>::const_iterator constIt1 = test.begin();
-	std::vector<std::string>::const_iterator constIt2 = test.begin() + 1;
-	std::vector<std::string>::const_iterator constIt3 = test.begin() + 2;
-	std::vector<std::string>::const_iterator constIt4 = test.begin() + 3;
-
-	constIt1 = constIt2;
-	if (constIt1 == constIt2)
-		it2 = it3;
+	std::vector<int> test;
+	for (int i = 0; i <= 20; i++)
+		test.push_back(i);
+	std::vector<int>::iterator it1;
+	std::vector<int>::iterator it2;
+	std::vector<int>::iterator it3;
+	std::vector<int>::iterator it4;
 	
-	if (constIt1 > constIt4)
-		it3 = it2;
-    std::cout << "const pointer = " << *constIt4 << std::endl;
-	constIt4--;
-    std::cout << "const pointer = " << *constIt4 << std::endl;
+	std::cout << YELLOW << "TEST PLUS/MINUS" << RESET << std::endl << std::endl;
+	std::cout << BLUE << "TEST 1 : " << RESET;{
+		it1 = test.begin() + 5;
+		it2 = test.begin() + 5;
+		it2 -= 2;
+		if (*it1 == 5 && *it2 == 3)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+	}
+	std::cout << BLUE << "TEST 6 : " << RESET;{
+		it1 = test.begin() + 4;
+		it3 = it1 - 2;
+		if (*it3 == 2)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
+	}
+
 }

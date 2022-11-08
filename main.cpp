@@ -6,7 +6,7 @@
 
 int main()
 {
-	vector_tests();
+	// vector_tests();
 	// std::vector<int> test(10,10);
 	// std::vector<int>::iterator beg = test.begin();
 	// std::vector<int>::iterator end = test.end();
@@ -20,10 +20,12 @@ int main()
 	
 	// std::vector<int> test;
 	
-	// ft::vector<int>test(10,10);
-	// ft::vector<int>::iterator beg = test.rbegin();
-	// ft::vector<int>::iterator beg = test.begin();
-	// ft::vector<int>::reverse_iterator beg = test.begin();
-	// ft::vector<int>::reverse_iterator beg = test.rbegin();
+	// std::vector<int> test1(10,10);
+	// std::vector<int>::iterator = test1.end() - 2;
+	// std::vector<std::string> v (10, "coucou");
+	// v.erase(v.end() - 1);
+
+	ft::vector<int> test1(10,10);
+	ft::vector<int> test2(test1);
 
 }

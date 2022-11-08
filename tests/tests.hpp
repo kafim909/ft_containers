@@ -5,9 +5,20 @@
 # include <chrono>
 # include <vector>
 
+struct utility
+{
+	void	printVector(ft::vector<int>::iterator first, ft::vector<int>::iterator last);
+};
+
 struct iteratorTests
 {
 	void constItTests();
+	void operatorTests();
+};
+
+struct operatorTests
+{
+	void compTests();
 };
 
 struct refIteratorTests
@@ -36,5 +47,6 @@ struct refVectorTests     								// tests with STL vector to compare output/per
 };
 
 void	vector_tests();
+
 
 #endif

@@ -11,23 +11,23 @@
 namespace ft
 {
 
-	template <class T, class Allocator = std::allocator<T> >
+	template <typename T, class Allocator = std::allocator<T> >
 	class vector
 	{
 		public :
 
-			typedef T                                       			value_type;
-			typedef Allocator                               			allocator_type;
-			typedef std::size_t											size_type;
-			typedef std::ptrdiff_t										difference_type;
-			typedef	value_type&											reference;
-			typedef	const value_type&									const_reference;
-			typedef typename Allocator::pointer							pointer;
-			typedef typename Allocator::const_pointer					const_pointer;
-			typedef typename ft::random_access_iterator<pointer>		iterator;
-     		typedef typename ft::random_access_iterator<const_pointer> 	const_iterator;
-      		typedef typename ft::reverse_iterator<iterator> 			reverse_iterator;
-      		typedef typename ft::reverse_iterator<const_iterator> 		const_reverse_iterator;
+			typedef T                                       				value_type;
+			typedef Allocator                               				allocator_type;
+			typedef std::size_t												size_type;
+			typedef std::ptrdiff_t											difference_type;
+			typedef	value_type&												reference;
+			typedef	const value_type&										const_reference;
+			typedef typename Allocator::pointer								pointer;
+			typedef typename Allocator::const_pointer						const_pointer;
+			typedef typename ft::random_access_iterator<value_type>			iterator;
+     		typedef typename ft::random_access_iterator<const value_type> 		const_iterator;
+      		typedef typename ft::reverse_iterator<iterator> 				reverse_iterator;
+      		typedef typename ft::reverse_iterator<const_iterator> 			const_reverse_iterator;
 
 // ============================================================================================================
 
@@ -35,7 +35,7 @@ namespace ft
 		
 		template< class InputIt >																								// A TESTER (? UNABLE IF INTEGRAL?)
 			explicit vector( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const Allocator& alloc = Allocator() ) : _alloc(alloc) {
-				_size = distance(first, last);
+				_size = ft::distance(first, last);
 				_capacity = _size;
 				_container = _alloc.allocate(_capacity, 0);
 				for (int i = 0; first != last; first++, i++)
@@ -43,14 +43,14 @@ namespace ft
 			}
 
 			vector( const allocator_type &alloc = allocator_type() ) : _size(0), _capacity(0), _alloc(alloc){																			
-				_container = _alloc.allocate( 0, 0);
+				_container = _alloc.allocate( 0/*, 0*/);
 			}
 			
 //		vector filled in constructor
 
 			explicit vector(const size_type n, const value_type &x = value_type(),
 						const allocator_type &alloc = allocator_type()) : _size (n), _capacity(n), _alloc(alloc) {
-				_container = _alloc.allocate(n, 0);
+				_container = _alloc.allocate(n/*, 0*/);
 				std::uninitialized_fill(_container, _container + _size, x);
 			}
 
@@ -68,7 +68,7 @@ namespace ft
 
 // 		copy constructor
 
-			explicit vector(const vector& copy) : _size(copy.size()), _alloc(copy.get_allocator()), _capacity(copy.capacity()){												
+			explicit vector(const vector& copy) : _size(copy.size()), _capacity(copy.capacity()), _alloc(copy.get_allocator()){												
 				_container = _alloc.allocate(_capacity, 0);
 				for (size_type i = 0; i < _size; i++)
 					_container[i] = copy[i];
@@ -82,9 +82,19 @@ namespace ft
 			}
 
 			template< class InputIt >																// A TESTER (? UNABLE IF INTEGRAL ?)
-			void assign( InputIt first, enable_if<is_integral<InputIt>::type>,InputIt last ){
-				for (int i = 0; i < _size, first != last; i++, first++)
+			void assign( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
+				size_type dist = ft::distance(first,last);
+				if (dist >= _capacity){
+					vector tmp(dist);
+					for (int i = 0; first != last; i++, first++)
+						tmp[i] = *first;
+					*this = tmp;
+					return ;
+				}
+
+				for (int i = 0; first != last; i++, first++)
 					_container[i] = *first;
+				_size = dist;
 			}
 
 
@@ -119,8 +129,8 @@ namespace ft
 			reference 		front()					{	return (*_container);								}
 			const_reference front() const			{	return (*_container);								}
 
-			reference		back()					{	return (*(_container + _size));						}
-			const_reference back()  const			{	return (*(_container + _size));						}
+			reference		back()					{	return (*(_container + (_size - 1)));						}
+			const_reference back()  const			{	return (*(_container + (_size - 1)));						}
 
 			pointer 		data() 					{	return (_container);								}
 			const pointer	data()  const			{	return (_container);								}
@@ -146,19 +156,19 @@ namespace ft
 // ======================================== CAPACITY =========================================
 
 			reference at(size_type pos){
-				if (pos > _size)
+				if (pos >= _size)
 					throw (std::out_of_range("Index out of bounds"));
 				return (_container[pos]);
 			}
 
 			const_reference at(size_type pos) const {                                                       // CONST A TESTER
-				if (pos > _size)
+				if (pos >= _size)
 					throw (std::out_of_range("Index out of bounds"));
 				return (_container[pos]);				
 			}
 
 			bool		empty()		const		{	return (begin() == end());								}
-			size_type max_size() 	const		{	return (std::numeric_limits<difference_type>::max());	}
+			size_type max_size() 	const		{	return (std::numeric_limits<std::size_t>::max());	}
 
 			void 		push_back(const value_type& value) {
 
@@ -201,7 +211,7 @@ namespace ft
 			iterator insert( iterator pos, size_type count, const T& value ){
 				if (count == 0)
 					return (pos);
-				int insert_index = distance(begin(), pos);
+				int insert_index = static_cast<int>(ft::distance(begin(), pos));
 				if (_size + count >= _capacity)
 					reserve(_capacity + count + 1);
 				for (int end = _size + count - 1; end >= insert_index + count; end--)
@@ -214,7 +224,7 @@ namespace ft
 			}
 
 			iterator insert( iterator pos, const T& value ){									// A TESTER
-				size_type insert_index = distance(begin(), pos);
+				size_type insert_index = ft::distance(begin(), pos);
 				if (!_size || !insert_index){
 					_container[0] = value;
 					return (begin());
@@ -234,7 +244,7 @@ namespace ft
 
 			template< class InputIt >
 			iterator insert( iterator pos, InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
-				int insert_index = distance(begin(), pos);
+				int insert_index = ft::distance(begin(), pos);
 				int count = distance(first, last);
 				if (first == last)
 					return (pos);
@@ -255,25 +265,25 @@ namespace ft
 			}
 
 			iterator erase( iterator pos ){
-				int erase_index = distance(begin(), pos);
-				for (int beg = erase_index; beg < erase_index + _size - 1; beg++)
+				int erase_index = ft::distance(begin(), pos);
+				for (size_type beg = erase_index; beg < erase_index + _size - 1; beg++)
 					_container[beg] = _container[beg + 1];
 				_size--;
 				return (begin() + erase_index);
 			}
 
 			iterator erase( iterator first, iterator last ){
-				int count = distance(first, last);
-				int erase_index = distance(begin(), first);
-				if (distance (begin(), last) == _size){
+				size_type count = ft::distance(first, last);
+				int erase_index = ft::distance(begin(), first);
+				if (ft::distance (begin(), last) == _size){
 					_size -= count;
 					while (first != last){
-						_alloc.destroy(first.getPointer());
+						_alloc.destroy(first.base());
 						first++;
 					}
 					return (begin() + erase_index);
 				}
-				for (int beg = erase_index; beg < erase_index < _size - count; beg++)
+				for (size_type beg = erase_index; beg < erase_index < _size - count; beg++)
 					_container[beg] = _container[beg + count - 1];
 				_size -= count;
 				return (begin() + erase_index);
@@ -318,11 +328,11 @@ namespace ft
 	};
 
 	template< class T, class Alloc >
-	bool operator==( const std::vector<T,Alloc>& lhs, const std::vector<T,Alloc>& rhs ){
+	bool operator==( const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs ){
 		if (lhs.size() == rhs.size())
 		{
 			size_t i = -1;
-			while (++i < lhs.size)
+			while (++i < lhs.size())
 				if (lhs[i] != rhs[i])
 					break;
 			if (i == lhs.size())
@@ -332,18 +342,20 @@ namespace ft
 	}
 
 	template< class T, class Alloc >
-	bool operator!=( const std::vector<T,Alloc>& lhs, const std::vector<T,Alloc>& rhs ){
+	bool operator!=( const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs ){
 		return !(lhs == rhs);
 	}
 
 	template< class T, class Alloc >
-	bool operator<( const std::vector<T,Alloc>& lhs, const std::vector<T,Alloc>& rhs ){
-		return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	bool operator<( const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs ){
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <typename T>
 	bool operator<=(const vector<T> &lhs, const vector<T> &rhs) {
-		return !(lhs > rhs);
+		if (lhs == rhs || lhs < rhs)
+			return (true);
+		return (false);
 	}
 
 	template <typename T>
@@ -353,7 +365,9 @@ namespace ft
 
 	template <typename T>
 	bool operator>=(const vector<T> &lhs, const vector<T> &rhs) {
-		return !(lhs < rhs);
+		if (lhs == rhs || lhs > rhs)
+			return (true);
+		return (false);
 	}
 
 	template <typename T>

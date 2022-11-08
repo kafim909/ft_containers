@@ -33,8 +33,8 @@ template <class T>
     };
 
 	template< class InputIt >
-	typename ft::iterator_traits<InputIt>::difference_type distance( InputIt first, InputIt last ){
-		typename ft::iterator_traits<InputIt>::difference_type result = 0;
+	typename std::size_t distance( InputIt first, InputIt last ){
+		std::size_t result = 0;
 		while (first != last){
 			first++;
 			result++;

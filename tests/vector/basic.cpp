@@ -153,16 +153,6 @@ void	vectorTests::testPopBack()
 
 }
 
-void	printVector(ft::vector<int>::iterator first, ft::vector<int>::iterator last)
-{
-	std::cout << RED << "PRINT VECTOR : " << RESET << std::endl;
-	while (first != last)
-	{
-		std::cout << *first << std::endl;
-		first++;
-	}
-}
-
 void	vectorTests::testInsert()
 {
 	std::cout << YELLOW << "TEST INSERT FUNCTION" << RESET << std::endl << std::endl;
@@ -229,7 +219,6 @@ void	vectorTests::testErase(){
 			std::cout << GREEN << "TEST OK" << RESET << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
-		// printVector(test.begin(), test.end());
 	}	
 	std::cout << BLUE << "TEST WITH RANGE : " << RESET; {
 		ft::vector<int> test;
@@ -246,7 +235,19 @@ void	vectorTests::testErase(){
 			std::cout << GREEN << "TEST OK" << RESET << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
-		// printVector(test.begin(), test.end());
+	}	
+	std::cout << BLUE << "TEST ERASE BEGIN " << RESET; {
+		ft::vector<int> test;
+		test.push_back(1);
+		test.push_back(2);
+		test.push_back(3);
+		test.push_back(4);
+		test.push_back(5);
+		ft::vector<int>::iterator ret = test.erase(test.begin());
+		if (*ret == 2)
+			std::cout << GREEN << "TEST OK" << RESET << std::endl;
+		else
+			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
 	}	
 
 }
@@ -265,7 +266,6 @@ void	vectorTests::testResize(){
 			std::cout << GREEN << "TEST OK" << RESET << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
-		// printVector(test.begin(), test.end());
 	}			
 	std::cout << BLUE << "TEST WITH VALUE AND COUNT GREATER THAN SIZE: " << RESET; {
 		ft::vector<int> test;
@@ -279,7 +279,6 @@ void	vectorTests::testResize(){
 			std::cout << GREEN << "TEST OK" << RESET << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
-		// printVector(test.begin(), test.end());
 	}			
 	std::cout << BLUE << "TEST WITHOUT VALUE AND COUNT GREATER THAN SIZE: " << RESET; {
 		ft::vector<int> test;
@@ -293,7 +292,6 @@ void	vectorTests::testResize(){
 			std::cout << GREEN << "TEST OK" << RESET << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << RESET << std::endl;
-		// printVector(test.begin(), test.end());
 	}			
 }
 
