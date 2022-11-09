@@ -51,6 +51,11 @@ struct vectorTests
 	void	testInsert();
 	void	testErase();
 	void	testResize();
+
+	void	relational_ope();
+
+	void constItTests();
+	void operatorTests();
 };
 
 struct refVectorTests
@@ -63,6 +68,11 @@ struct refVectorTests
 	void	testAssign();
 	void	testErase();
 	void	testInsert();
+
+	void	relational_ope();
+
+	void constItTests();
+	void operatorTests();
 };
 
 void	vector_tests();

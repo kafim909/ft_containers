@@ -196,12 +196,18 @@ namespace ft
 			iterator insert( iterator pos, size_type count, const T& value ){
 				if (count == 0)
 					return (pos);
-				int insert_index = static_cast<int>(ft::distance(begin(), pos));   
-				if (_size + count >= _capacity)
-					reserve(_capacity + count + 1);
-				for (int end = _size + count - 1; end >= insert_index + count; end--)
+				size_type insert_index = ft::distance(begin(), pos);   
+				if (_size + count > _capacity)
+				{
+					reserve(_capacity * 2);
+					if (_size + count > _capacity)
+						reserve(_size + count);
+				}
+
+				for (size_type end = _size + count - 1; end >= insert_index + count; end--)
 					_container[end] = _container[end - count];
-				for (int end = insert_index + count - 1; end >= insert_index; end--)
+
+				for (size_type end = insert_index + count - 1; end >= insert_index && end <= _size + count; end--)
 					_container[end] = value;
 	
 				_size += count;
@@ -209,23 +215,23 @@ namespace ft
 			}
 
 			iterator insert( iterator pos, const T& value ){							
-				size_type insert_index = ft::distance(begin(), pos);		// insert_index == 0
+				size_type insert_index = ft::distance(begin(), pos);
+				if (_size + 1 > _capacity){
+					if (!_capacity)
+						reserve(1);
+					else
+						reserve(_capacity + 1);
+				}
 				if (!_size){
 					_container[0] = value;
 					_size++;
 					return (begin());
 				}
-				if (_size + 1 >= _capacity){
-					if (!_capacity)
-						reserve(1);
-					else
-						reserve(_capacity * 2);
-				}
-				for (size_type end = _size; end >= insert_index; end--)
+				for (size_type end = _size; end > insert_index; end--)
 					_container[end] = _container[end - 1];
-				_container[insert_index - 1] = value;
+				_container[insert_index] = value;
 				_size++;
-				return (begin() + (insert_index - 1));
+				return (begin() + (insert_index));
 			}
 
 			template< class InputIt >
@@ -278,7 +284,7 @@ namespace ft
 
 			void resize( size_type count, T value = T() ){
 				if (_size > count){
-					int tmp = count;
+					size_type tmp = count;
 					while (tmp <= _size){
 						_alloc.destroy(_container + tmp);
 						tmp++;
@@ -335,7 +341,7 @@ namespace ft
 
 	template< class T, class Alloc >
 	bool operator<( const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs ){
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
 
 	template <typename T>

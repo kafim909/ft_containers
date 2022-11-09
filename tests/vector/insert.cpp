@@ -2,7 +2,10 @@
 
 void	vectorTests::testInsert()
 {
-	std::cout << YELLOW << "TEST FT::INSERT FUNCTION" << RESET << std::endl << std::endl;
+	vectorUtils u;
+	filename = "insert.txt";
+	std::ofstream file(filename.insert(0, _VECTOR_LOG_PATH));
+	std::cout << std::endl <<YELLOW << "TEST FT::INSERT FUNCTION" << RESET << std::endl << std::endl;
 
 	std::cout << BLUE << "TEST WITH POS : " << RESET; {
 		ft::vector<int> test(10, 8);
@@ -43,17 +46,16 @@ void	vectorTests::testInsert()
 		to_insert.push_back(2000);
 		to_insert.push_back(3000);
 		ft::vector<int>::iterator pos =  test.begin() + 2;
+		u.printVector(test, 1, file, pos);
 		ft::vector<int>::iterator ret = test.insert(pos, to_insert.begin(), to_insert.end());
+		u.printVector(test, 2, file, ret);
 		if (*ret == 1000 && *(ret + 1) == 2000 && *(ret + 2) == 3000)
 			std::cout << GREEN << "TEST OK" << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << std::endl;
 	}
-	std::cout << BLUE << "INSERT UNIT TESTS 1: " << RESET;{
-		filename = "insert.txt";
-		std::ofstream file(filename.insert(0, _VECTOR_LOG_PATH));
+	std::cout << BLUE << "INSERT UNIT TESTS 1: CHECK LOG" << RESET << std::endl;{
 		file << "TEST INSERT" << std::endl;
-		vectorUtils u;
 		ft::vector<int> vct(10);
 		ft::vector<int> vct2;
 		ft::vector<int> vct3;
@@ -69,26 +71,36 @@ void	vectorTests::testInsert()
 
 		ret = vct2.insert(vct2.begin(), 2, 21);
 		u.printVector(vct2, 2, file, ret);
+
 		ret = vct2.insert(vct2.end() - 2, 42);
 		u.printVector(vct2, 3, file, ret);
+
 		ret = vct2.insert(vct2.end(), 2, 84);
 		u.printVector(vct2, 4, file, ret);
+
 		vct2.resize(4);
 		u.printVector(vct2, 5, file, ret);
+
 		ret = vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
 		u.printVector(vct2, 6, file, ret);
+
 		vct.clear();
 		u.printVector(vct2, 7, file, ret);
+
 		for (int i = 0; i < 5; ++i)
 			vct3.insert(vct3.end(), i);
-		ret = vct3.insert(vct3.begin() + 1, 2, 111);
 		u.printVector(vct2, 8, file, ret);
+		ret = vct3.insert(vct3.begin() + 1, 2, 111);
+		u.printVector(vct2, 9, file, ret);
 	}
 }
 
 void	refVectorTests::testInsert()
 {
-	std::cout << YELLOW << "TEST REF::INSERT FUNCTION" << RESET << std::endl << std::endl;
+	vectorUtils u;
+	filename = "insert_ref.txt";
+	std::ofstream file(filename.insert(0, _VECTOR_LOG_PATH));
+	std::cout << std::endl << YELLOW << "TEST REF::INSERT FUNCTION" << RESET << std::endl << std::endl;
 
 	std::cout << BLUE << "TEST WITH POS : " << RESET; {
 		std::vector<int> test(10, 8);
@@ -129,17 +141,16 @@ void	refVectorTests::testInsert()
 		to_insert.push_back(2000);
 		to_insert.push_back(3000);
 		std::vector<int>::iterator pos =  test.begin() + 2;
+		u.printVector(test, 1, file, pos);
 		std::vector<int>::iterator ret = test.insert(pos, to_insert.begin(), to_insert.end());
+		u.printVector(test, 2, file, ret);
 		if (*ret == 1000 && *(ret + 1) == 2000 && *(ret + 2) == 3000)
 			std::cout << GREEN << "TEST OK" << std::endl;
 		else
 			std::cout << RED << "TEST NOT OK" << std::endl;
 	}
-	std::cout << BLUE << "INSERT UNIT TESTS 1: " << RESET;{
-		filename = "insert_ref.txt";
-		std::ofstream file(filename.insert(0, _VECTOR_LOG_PATH));
+	std::cout << BLUE << "INSERT UNIT TESTS 1: CHECK LOG" << RESET << std::endl;{
 		file << "TEST INSERT" << std::endl;
-		vectorUtils u;
 		std::vector<int> vct(10);
 		std::vector<int> vct2;
 		std::vector<int> vct3;
@@ -147,23 +158,33 @@ void	refVectorTests::testInsert()
 		for (unsigned long int i = 0; i < vct.size(); ++i)
 			vct[i] = (vct.size() - i) * 3;
 		u.printVector(vct, 0, file, vct.begin());
+
 		ret = vct2.insert(vct2.end(), 42);
 		u.printVector(vct2, 1, file, ret);
+
 		ret = vct2.insert(vct2.begin(), 2, 21);
 		u.printVector(vct2, 2, file, ret);
+
 		ret = vct2.insert(vct2.end() - 2, 42);
 		u.printVector(vct2, 3, file, ret);
+
 		ret = vct2.insert(vct2.end(), 2, 84);
 		u.printVector(vct2, 4, file, ret);
+
 		vct2.resize(4);
 		u.printVector(vct2, 5, file, ret);
+
 		ret = vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
 		u.printVector(vct2, 6, file, ret);
+
 		vct.clear();
 		u.printVector(vct2, 7, file, ret);
+
 		for (int i = 0; i < 5; ++i)
 			vct3.insert(vct3.end(), i);
-		ret = vct3.insert(vct3.begin() + 1, 2, 111);
 		u.printVector(vct2, 8, file, ret);
+
+		ret = vct3.insert(vct3.begin() + 1, 2, 111);
+		u.printVector(vct2, 9, file, ret);
 	}
 }

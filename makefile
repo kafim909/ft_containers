@@ -1,8 +1,13 @@
-VECTOR_LOG_PATH = /Users/mtournay/Desktop/ft_containers/tests/vector/logs/
+VECTOR_TEST_PATH 	= tests/vector/
 
-VECTOR_TEST =   tests/vector/basic.cpp tests/vector/basicRef.cpp tests/vector/iterators.cpp \
-				tests/vector/iteratorsRef.cpp tests/vector/operators.cpp tests/vector/erase.cpp \
-				tests/vector/insert.cpp
+VECTOR_TEST_FILES	=   basic.cpp basicRef.cpp iterators.cpp iteratorsRef.cpp operators.cpp erase.cpp insert.cpp relational_ope.cpp
+
+VECTOR_TEST			= $(addprefix $(VECTOR_TEST_PATH), $(VECTOR_TEST_FILES))
+
+VECTOR_LOG_PATH 	= /Users/mtournay/Desktop/ft_containers/tests/vector/logs/
+
+VECTOR_LOGS			= $(addprefix $(VECTOR_LOG_PATH), *.txt)
+
 
 SRCS		=	main.cpp tests/tests.cpp $(VECTOR_TEST)
 
@@ -23,7 +28,7 @@ clean:
 				@rm -f ${OBJS}
 
 fclean:		clean
-				@rm -f $(NAME)
+				@rm -f $(NAME) @rm -f $(VECTOR_LOGS)
 
 re:			fclean all
 
