@@ -1,6 +1,8 @@
+VECTOR_LOG_PATH = /Users/mtournay/Desktop/ft_containers/tests/vector/logs/
 
-
-VECTOR_TEST =   tests/vector/basic.cpp tests/vector/basicRef.cpp tests/vector/iterators.cpp tests/vector/iteratorsRef.cpp tests/vector/operators.cpp tests/utility.cpp
+VECTOR_TEST =   tests/vector/basic.cpp tests/vector/basicRef.cpp tests/vector/iterators.cpp \
+				tests/vector/iteratorsRef.cpp tests/vector/operators.cpp tests/vector/erase.cpp \
+				tests/vector/insert.cpp
 
 SRCS		=	main.cpp tests/tests.cpp $(VECTOR_TEST)
 

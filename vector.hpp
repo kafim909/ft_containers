@@ -10,7 +10,6 @@
 
 namespace ft
 {
-
 	template <typename T, class Allocator = std::allocator<T> >
 	class vector
 	{
@@ -19,69 +18,55 @@ namespace ft
 			typedef T                                       				value_type;
 			typedef Allocator                               				allocator_type;
 			typedef std::size_t												size_type;
-			typedef std::ptrdiff_t											difference_type;
 			typedef	value_type&												reference;
 			typedef	const value_type&										const_reference;
 			typedef typename Allocator::pointer								pointer;
 			typedef typename Allocator::const_pointer						const_pointer;
+			typedef typename Allocator::difference_type						difference_type;
 			typedef typename ft::random_access_iterator<value_type>			iterator;
-     		typedef typename ft::random_access_iterator<const value_type> 		const_iterator;
+     		typedef typename ft::random_access_iterator<const value_type> 	const_iterator;
       		typedef typename ft::reverse_iterator<iterator> 				reverse_iterator;
       		typedef typename ft::reverse_iterator<const_iterator> 			const_reverse_iterator;
 
 // ============================================================================================================
 
 // ======================================== CONSTRUCTORS / DESTRUCTORS ========================================
-		
-		template< class InputIt >																								// A TESTER (? UNABLE IF INTEGRAL?)
+
+		explicit vector( const allocator_type &alloc = allocator_type() ) : _size(0), _capacity(0), _alloc(alloc){_container = _alloc.allocate(_capacity);}
+
+		template< class InputIt >																								
 			explicit vector( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const Allocator& alloc = Allocator() ) : _alloc(alloc) {
 				_size = ft::distance(first, last);
 				_capacity = _size;
-				_container = _alloc.allocate(_capacity, 0);
+				_container = _alloc.allocate(_capacity);
 				for (int i = 0; first != last; first++, i++)
 					_container[i] = *first;
 			}
 
-			vector( const allocator_type &alloc = allocator_type() ) : _size(0), _capacity(0), _alloc(alloc){																			
-				_container = _alloc.allocate( 0/*, 0*/);
-			}
-			
-//		vector filled in constructor
-
 			explicit vector(const size_type n, const value_type &x = value_type(),
 						const allocator_type &alloc = allocator_type()) : _size (n), _capacity(n), _alloc(alloc) {
-				_container = _alloc.allocate(n/*, 0*/);
+				_container = _alloc.allocate(n);
 				std::uninitialized_fill(_container, _container + _size, x);
 			}
 
-		// private vector constructor for extended capacity without init the values
-
-		// private :
-
-		// 	explicit vector(const size_type size, const size_type capacity, const value_type &x = value_type(),
-		// 					const allocator_type &alloc = allocator_type()) : _size(size), _capacity(capacity), _alloc(alloc){
-		// 		(void)x;
-		// 		_container = _alloc.allocate(_capacity, 0);
-		// 	}
-
-		public :
-
-// 		copy constructor
-
 			explicit vector(const vector& copy) : _size(copy.size()), _capacity(copy.capacity()), _alloc(copy.get_allocator()){												
-				_container = _alloc.allocate(_capacity, 0);
+				_container = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
 					_container[i] = copy[i];
 			}
 
-			~vector(){_alloc.deallocate(_container, _capacity);}
+			~vector(){if(_capacity){_alloc.deallocate(_container, _capacity);}}
+
+// ===========================================================================================
+
+// ======================================== FILL FUNCTIONS  ==================================
 
 			void	assign(size_type count, const T& value){
 				vector tmp(count, value);
 				*this = tmp;
 			}
 
-			template< class InputIt >																// A TESTER (? UNABLE IF INTEGRAL ?)
+			template< class InputIt >																
 			void assign( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
 				size_type dist = ft::distance(first,last);
 				if (dist >= _capacity){
@@ -145,11 +130,11 @@ namespace ft
 			const_iterator begin() const 			{	return const_iterator(_container);					}
 			const_iterator end() const 				{	return const_iterator(_container + _size);			}
 
-			reverse_iterator rbegin() 				{	return reverse_iterator(_container + _size);		}
-			reverse_iterator rend() 				{	return reverse_iterator(_container);				}
+			reverse_iterator rbegin() 				{	return reverse_iterator(this->end());		}
+			reverse_iterator rend() 				{	return reverse_iterator(this->begin());				}
 
-			const_reverse_iterator rbegin() const	{	return const_reverse_iterator(_container + _size);	}
-			const_reverse_iterator rend() const 	{	return const_iterator(_container);					}
+			const_reverse_iterator rbegin() const	{	return const_reverse_iterator(this->end());	}
+			const_reverse_iterator rend() const 	{	return const_iterator(this->begin());					}
 
 // ===========================================================================================
 
@@ -168,7 +153,7 @@ namespace ft
 			}
 
 			bool		empty()		const		{	return (begin() == end());								}
-			size_type max_size() 	const		{	return (std::numeric_limits<std::size_t>::max());	}
+			size_type max_size() 	const		{	return (_alloc.max_size());	}
 
 			void 		push_back(const value_type& value) {
 
@@ -211,7 +196,7 @@ namespace ft
 			iterator insert( iterator pos, size_type count, const T& value ){
 				if (count == 0)
 					return (pos);
-				int insert_index = static_cast<int>(ft::distance(begin(), pos));
+				int insert_index = static_cast<int>(ft::distance(begin(), pos));   
 				if (_size + count >= _capacity)
 					reserve(_capacity + count + 1);
 				for (int end = _size + count - 1; end >= insert_index + count; end--)
@@ -223,10 +208,11 @@ namespace ft
 				return (begin()+ insert_index);
 			}
 
-			iterator insert( iterator pos, const T& value ){									// A TESTER
-				size_type insert_index = ft::distance(begin(), pos);
-				if (!_size || !insert_index){
+			iterator insert( iterator pos, const T& value ){							
+				size_type insert_index = ft::distance(begin(), pos);		// insert_index == 0
+				if (!_size){
 					_container[0] = value;
+					_size++;
 					return (begin());
 				}
 				if (_size + 1 >= _capacity){
@@ -245,7 +231,7 @@ namespace ft
 			template< class InputIt >
 			iterator insert( iterator pos, InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
 				int insert_index = ft::distance(begin(), pos);
-				int count = distance(first, last);
+				int count = ft::distance(first, last);
 				if (first == last)
 					return (pos);
 				if (_size + count >= _capacity)
@@ -266,7 +252,8 @@ namespace ft
 
 			iterator erase( iterator pos ){
 				int erase_index = ft::distance(begin(), pos);
-				for (size_type beg = erase_index; beg < erase_index + _size - 1; beg++)
+				_alloc.destroy(pos.base());
+				for (size_type beg = erase_index; beg < _size - 1; beg++)
 					_container[beg] = _container[beg + 1];
 				_size--;
 				return (begin() + erase_index);
@@ -275,7 +262,7 @@ namespace ft
 			iterator erase( iterator first, iterator last ){
 				size_type count = ft::distance(first, last);
 				int erase_index = ft::distance(begin(), first);
-				if (ft::distance (begin(), last) == _size){
+				if (ft::distance (first, last) == _size){
 					_size -= count;
 					while (first != last){
 						_alloc.destroy(first.base());
@@ -283,8 +270,8 @@ namespace ft
 					}
 					return (begin() + erase_index);
 				}
-				for (size_type beg = erase_index; beg < erase_index < _size - count; beg++)
-					_container[beg] = _container[beg + count - 1];
+				for (size_type beg = erase_index; beg < _size - count; beg++) // erase_index = 0; size = 7; count = 3;
+					_container[beg] = _container[beg + count];
 				_size -= count;
 				return (begin() + erase_index);
 			}

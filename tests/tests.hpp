@@ -4,10 +4,23 @@
 # include "../colors.hpp"
 # include <chrono>
 # include <vector>
+# include <fstream>
+# include <iostream>
 
-struct utility
+
+# define _VECTOR_LOG_PATH "/Users/mtournay/Desktop/ft_containers/tests/vector/logs/"
+
+struct vectorUtils
 {
-	void	printVector(ft::vector<int>::iterator first, ft::vector<int>::iterator last);
+	template <typename vect, typename it>
+	void printVector(vect &to_print, int n, std::ofstream &file, it ret){
+		file << std::endl;
+		for (it beg = to_print.begin(); beg != to_print.end(); beg++)
+			file << n << " - " << *beg << std::endl;
+		file << "RETURN VALUE  = " << *ret << std::endl;
+		file << "RETURN - BEGIN  = " << ret - to_print.begin() << std::endl;
+		file << "SIZE = " << to_print.size() << " CAPACITY = " << to_print.capacity() << std::endl;
+	}
 };
 
 struct iteratorTests
@@ -28,6 +41,8 @@ struct refIteratorTests
 
 struct vectorTests
 {
+	std::string filename;
+
 	void	testCopyAssignment();
 	void	testCopyConstructor();
 	void	testReserve();
@@ -38,12 +53,16 @@ struct vectorTests
 	void	testResize();
 };
 
-struct refVectorTests     								// tests with STL vector to compare output/performance.
+struct refVectorTests
 {
+	std::string filename;
+
 	void	testCopyAssignment();
 	void	testCopyConstructor();
 	void	testReserve();
 	void	testAssign();
+	void	testErase();
+	void	testInsert();
 };
 
 void	vector_tests();

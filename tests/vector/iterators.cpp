@@ -8,8 +8,6 @@ void iteratorTests::constItTests(){
 	ft::vector<int>::iterator it2;
 	ft::vector<int>::iterator it3;
 	ft::vector<int>::iterator it4;
-	utility utils;
-	
 
 	std::cout << YELLOW << "TEST PLUS/MINUS" << RESET << std::endl << std::endl;
 	std::cout << BLUE << "TEST 1 : " << RESET;{

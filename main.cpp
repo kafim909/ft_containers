@@ -3,10 +3,9 @@
 #include "tests/tests.hpp"
 #include <vector>
 
-
 int main()
 {
-	// vector_tests();
+	vector_tests();
 	// std::vector<int> test(10,10);
 	// std::vector<int>::iterator beg = test.begin();
 	// std::vector<int>::iterator end = test.end();
@@ -25,7 +24,8 @@ int main()
 	// std::vector<std::string> v (10, "coucou");
 	// v.erase(v.end() - 1);
 
-	ft::vector<int> test1(10,10);
-	ft::vector<int> test2(test1);
-
+	// ft::vector<int> test1(10,10);
+	// ft::vector<int> test2(test1);
+	// std::vector<int> test4;
+	// std::cout << "MAXSIZE std = " << test4.max_size() << " FT  = " << test1.max_size() << std::endl;
 }
