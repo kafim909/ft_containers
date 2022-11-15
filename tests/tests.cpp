@@ -19,6 +19,8 @@ void	vector_tests()
 		test.testErase();
 		test.constItTests();
 		test.relational_ope();
+		test.testSize();
+		test.reverseIt();
 
 		// test.testResize();
 
@@ -40,6 +42,8 @@ void	vector_tests()
 		ref.testErase();
 		ref.constItTests();
 		ref.relational_ope();
+		ref.testSize();
+		ref.reverseIt();
 
 		std::chrono::time_point<std::chrono::steady_clock> end = std::chrono::steady_clock::now();
 		std::chrono::duration<double, std::milli> fp_ms = end - start; 

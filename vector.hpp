@@ -13,6 +13,7 @@ namespace ft
 	template <typename T, class Allocator = std::allocator<T> >
 	class vector
 	{
+														
 		public :
 
 			typedef T                                       				value_type;
@@ -24,13 +25,22 @@ namespace ft
 			typedef typename Allocator::const_pointer						const_pointer;
 			typedef typename Allocator::difference_type						difference_type;
 			typedef typename ft::random_access_iterator<value_type>			iterator;
-     		typedef typename ft::random_access_iterator<const value_type> 	const_iterator;
+     		typedef typename ft::random_access_iterator<const value_type>	 	const_iterator;
       		typedef typename ft::reverse_iterator<iterator> 				reverse_iterator;
       		typedef typename ft::reverse_iterator<const_iterator> 			const_reverse_iterator;
 
 // ============================================================================================================
+		
+		private :
+
+			size_type		_size;
+			size_type		_capacity;
+			allocator_type	_alloc;
+			pointer 		_container;
 
 // ======================================== CONSTRUCTORS / DESTRUCTORS ========================================
+
+		public :
 
 		explicit vector( const allocator_type &alloc = allocator_type() ) : _size(0), _capacity(0), _alloc(alloc){_container = _alloc.allocate(_capacity);}
 
@@ -62,24 +72,31 @@ namespace ft
 // ======================================== FILL FUNCTIONS  ==================================
 
 			void	assign(size_type count, const T& value){
-				vector tmp(count, value);
-				*this = tmp;
+				this->clear();
+				if (count > this->_capacity)
+				{
+					_alloc.deallocate(_container, _capacity);
+					_container = _alloc.allocate(count);
+					_capacity = count;
+				}
+				for (size_type i = 0; i < count; i++)
+					_container[i] = value;
+				_size = count;
 			}
 
 			template< class InputIt >																
 			void assign( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
 				size_type dist = ft::distance(first,last);
-				if (dist >= _capacity){
-					vector tmp(dist);
-					for (int i = 0; first != last; i++, first++)
-						tmp[i] = *first;
-					*this = tmp;
-					return ;
+				clear();
+				if (dist > this->_capacity)
+				{
+					this->_alloc.deallocate(this->_container, this->_capacity);
+					this->_container = this->_alloc.allocate(dist);
+					this->_capacity = dist;
 				}
-
-				for (int i = 0; first != last; i++, first++)
-					_container[i] = *first;
-				_size = dist;
+				for (size_type i = 0; i < dist; i++, first++)
+					this->_alloc.construct(this->_container + i, *first);
+				this->_size = dist;
 			}
 
 
@@ -93,9 +110,9 @@ namespace ft
 			vector &operator=(const vector& other){
 				_alloc.deallocate(_container, _capacity);
 				_size = other.size();
-				_capacity = other.capacity();
+				_capacity = other.size();
 				_alloc = other.get_allocator();
-				_container = _alloc.allocate(_capacity, 0);
+				_container = _alloc.allocate(_size, 0);
 				for (size_type i = 0; i < _size; i++)
 					_container[i] = other[i];
 				return (*this);
@@ -173,15 +190,19 @@ namespace ft
 			}
 
 			void	reserve(size_type new_cap){
-				if (new_cap < _capacity)
+				if (new_cap > this->max_size())
+					throw std::out_of_range("vector::reserve");
+				else if (this->_capacity >= new_cap)
 					return ;
-				if (new_cap > max_size())
-					throw (std::length_error("New capacity too big for object size"));
-				vector temp(new_cap);
-				temp._size = 0;
-				for (size_type i = 0; i < _size; i++)
-					temp.push_back(_container[i]);
-				*this = temp;
+				pointer tmp = this->_alloc.allocate(new_cap);
+				for (size_type i = 0; i < this->_size; i++)
+				{
+					this->_alloc.construct(tmp + i, this->_container[i]);
+					this->_alloc.destroy(this->_container + i);
+				}
+				this->_alloc.deallocate(this->_container, this->_capacity);
+				this->_container = tmp;
+				this->_capacity = new_cap;
 			}
 
 // ===========================================================================================
@@ -189,8 +210,9 @@ namespace ft
 //  ======================================== MODIFIERS =======================================
 
 			void	clear(){																		// A TESTER
-				vector tmp(0, _capacity);
-				*this = tmp;
+				for (size_type i = 0; i < _size; i++)
+					_alloc.destroy(_container + i);
+				_size = 0;
 			}
 
 			iterator insert( iterator pos, size_type count, const T& value ){
@@ -283,6 +305,12 @@ namespace ft
 			}
 
 			void resize( size_type count, T value = T() ){
+				if (count > _capacity)
+				{
+					reserve(_capacity * 2);
+					if (count > _capacity)
+						reserve(count);
+				}
 				if (_size > count){
 					size_type tmp = count;
 					while (tmp <= _size){
@@ -311,13 +339,6 @@ namespace ft
 
 // ========================================== DATA MEMBERS ===================================
 
-		private :
-
-			size_type		_size;
-			size_type		_capacity;
-			allocator_type	_alloc;
-			pointer 		_container;
-														
 	};
 
 	template< class T, class Alloc >

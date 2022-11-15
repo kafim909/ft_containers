@@ -3,10 +3,15 @@
 template <class vect>
 void	cmp(const vect &lhs, const vect &rhs, std::ofstream &file, int i)
 {
-	file << "############### [" << i++ << "] ###############"  << std::endl;
-	file << "eq: " << (lhs == rhs) << " | ne: " << (lhs != rhs) << std::endl;
-	file << "lt: " << (lhs <  rhs) << " | le: " << (lhs <= rhs) << std::endl;
-	file << "gt: " << (lhs >  rhs) << " | ge: " << (lhs >= rhs) << std::endl;
+	vectorUtils u;
+	file << std::endl << "############### [" << i++ << "] ###############"  << std::endl;
+	file << "compare this one -> ";
+	u.printVector(lhs, i, file, lhs.begin());
+	file << "with this one -> ";
+	u.printVector(rhs, i, file, rhs.begin());
+	file << "equal: " << (lhs == rhs) << " | non equal: " << (lhs != rhs) << std::endl;
+	file << "lower: " << (lhs <  rhs) << " | low/equal: " << (lhs <= rhs) << std::endl;
+	file << "greater: " << (lhs >  rhs) << " | great/equal: " << (lhs >= rhs) << std::endl;
 }
 
 void	vectorTests::relational_ope()

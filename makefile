@@ -1,6 +1,6 @@
 VECTOR_TEST_PATH 	= tests/vector/
 
-VECTOR_TEST_FILES	=   basic.cpp basicRef.cpp iterators.cpp iteratorsRef.cpp operators.cpp erase.cpp insert.cpp relational_ope.cpp
+VECTOR_TEST_FILES	=   basic.cpp basicRef.cpp iterators.cpp iteratorsRef.cpp operators.cpp erase.cpp insert.cpp relational_ope.cpp size.cpp reverse_it.cpp
 
 VECTOR_TEST			= $(addprefix $(VECTOR_TEST_PATH), $(VECTOR_TEST_FILES))
 

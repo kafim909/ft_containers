@@ -53,9 +53,11 @@ struct vectorTests
 	void	testResize();
 
 	void	relational_ope();
+	void	testSize();
 
 	void constItTests();
 	void operatorTests();
+	void reverseIt();
 };
 
 struct refVectorTests
@@ -70,9 +72,11 @@ struct refVectorTests
 	void	testInsert();
 
 	void	relational_ope();
+	void	testSize();
 
 	void constItTests();
 	void operatorTests();
+	void reverseIt();
 };
 
 void	vector_tests();
