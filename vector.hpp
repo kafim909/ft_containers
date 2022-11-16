@@ -8,6 +8,21 @@
 # include "reverse_iterator.hpp"
 # include "utils.hpp"
 
+static class nullptr_t
+{
+    public:
+        template<class T>
+        operator T*() const { return (0); }
+
+        template<class C, class T>
+        operator T C::*() const { return (0); }
+
+    private:
+        
+        void operator&() const;
+
+} u_nullptr = {};
+
 namespace ft
 {
 	template <typename T, class Allocator = std::allocator<T> >
@@ -45,7 +60,7 @@ namespace ft
 		explicit vector( const allocator_type &alloc = allocator_type() ) : _size(0), _capacity(0), _alloc(alloc){_container = _alloc.allocate(_capacity);}
 
 		template< class InputIt >																								
-			explicit vector( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const Allocator& alloc = Allocator() ) : _alloc(alloc) {
+			explicit vector( InputIt first, InputIt last, const Allocator& alloc = Allocator(), typename enable_if<!is_integral<InputIt>::value, InputIt>::type* = u_nullptr ) : _alloc(alloc) {
 				_size = ft::distance(first, last);
 				_capacity = _size;
 				_container = _alloc.allocate(_capacity);
@@ -85,7 +100,7 @@ namespace ft
 			}
 
 			template< class InputIt >																
-			void assign( InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
+			void assign( InputIt first, InputIt last, typename enable_if<!is_integral<InputIt>::value, InputIt>::type* = u_nullptr ){
 				size_type dist = ft::distance(first,last);
 				clear();
 				if (dist > this->_capacity)
@@ -257,7 +272,7 @@ namespace ft
 			}
 
 			template< class InputIt >
-			iterator insert( iterator pos, InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last ){
+			iterator insert( iterator pos, InputIt first, InputIt last, typename enable_if<!is_integral<InputIt>::value, InputIt>::type* = u_nullptr){
 				int insert_index = ft::distance(begin(), pos);
 				int count = ft::distance(first, last);
 				if (first == last)
