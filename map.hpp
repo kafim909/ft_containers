@@ -3,6 +3,7 @@
 # include <memory>
 # include <iostream>
 # include "colors.hpp"
+# include "map_iterators.hpp"
 # include "utils.hpp"
 
 namespace ft
@@ -20,62 +21,40 @@ namespace ft
 
 		key_type	key;
 		value_type	value;
-		struct node *left;
-		struct node *right;
+		
+		protected :
+		
+			struct node *left;
+			struct node *right;
 
 		bool operator<(node &other) {return (key < other.key);}
 	};
 
-	template < typename T, typename U >
-	class map : public node < T , U >
+	template < class Key, Class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
+	class map
 	{
-		public :
 		
-			typedef typename node::key_type		key_type;
-			typedef typename node::value_type	vale_type;
+		public :
 
-			map() : root(NULL);
+			typedef	Key												key_type;
+			typedef T												mapped_type;
+			typedef pair<const key_type, mapped_type>				value_type;
+			typedef	Compare											key_compare;
 
+			typedef Allocator										allocator_type;
+			typedef typename allocator_type::reference				reference;
+			typedef typename allocator_type::const_reference		const_reference;
+			typedef typename allocator_type::pointer				pointer;
+			typedef typename allocator_type::const_pointer			const_pointer;
+			typedef typename map_iterator<value_type>				iterator;
+			typedef typename map_iterator<const value_type>			const_iterator;
+			typedef typename map_reverse_iterator<iterator>			reverse_iterator;
+			typedef typename map_reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef typename iterator_traits<iterator>::difference_type	difference_type;
+			typedef typename
 
-
-			node addNode(key_type& key, value_type& value)
-			{
-				node newNode(key, value);
-				if (!root)
-					root = &newNode;
-				else
-				{
-					node tmp(*root);
-					while (1)
-					{
-						if (newNode < tmp && tmp->left)
-						{
-							tmp = tmp->left;
-							if (!tmp->left)
-							{
-								tmp->left = &newNode;
-								break ;
-							}
-						}	
-						else if (!(newNode < tmp) && tmp->right)
-						{
-							tmp = tmp->right;
-							if (tmp->right)
-							{
-								tmp->right = &newNode;
-								break ;
-							}
-						}
-					}
-				}
-				return (newNode);	
-			}
-
-
-		private :
-
-			node *root;
 	};
 }
+
 
 #endif

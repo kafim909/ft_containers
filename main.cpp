@@ -7,6 +7,7 @@
 
 int main()
 {
-	// vector_tests();
+	vector_tests();
 	// std::pair<int, std::string> p1(1, "coucou");
+	// ft::vector<int> v;
 }
